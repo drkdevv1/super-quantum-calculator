@@ -1,6 +1,8 @@
+from io import BytesIO
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+import requests
 
 
 def show_screen():
@@ -9,10 +11,14 @@ def show_screen():
     screen.attributes('-topmost', True)
     screen.bind('<Escape>', lambda e: screen.destroy())
 
+    image_url = "https://mycomputerworks.com/wp-content/uploads/2023/08/shutterstock_1155819148-min-scaled.jpg"
+
+    response = requests.get(image_url)
+    img_data = BytesIO(response.content)
+
+    img = Image.open(img_data)
     screen_width = screen.winfo_screenwidth()
     screen_height = screen.winfo_screenheight()
-
-    img = Image.open("assets/Wh46bS2Gw8vUC6iQh2wEd6.jpg")
     img = img.resize((screen_width, screen_height), Image.LANCZOS)
     img = ImageTk.PhotoImage(img)
 
